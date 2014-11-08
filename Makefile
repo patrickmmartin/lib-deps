@@ -1,7 +1,7 @@
 ALL_LIBS = D.a E.a H.a L.a O.a R.a W.a T.a
 
 default:
-	@echo libs: $(ALL_LIBS) 
+	@echo all_libs: $(ALL_LIBS) 
 
 MAKELIB= @ar -cvq $@ $<
 
