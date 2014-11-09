@@ -1,11 +1,14 @@
 CC=c99
-CFLAGS=-L. -lfluxcap.a
 ALL_LIBS=D.a E.a H.a L.a O.a R.a W.a T.a fluxcap.a
+
+clean:
+	-rm *.o
+	-rm *.a
 
 default:
 	@echo all_libs: $(ALL_LIBS) 
 
-MAKELIB= @ar -cvq $@ $<
+MAKELIB= @ar rcs  lib$@ $< ; echo archive $@
 
 
 
@@ -25,7 +28,7 @@ W.a: w.o
 	$(MAKELIB)
 T.a: t.o
 	$(MAKELIB)
-fluxcap.a: fluxcap.c
+fluxcap.a: fluxcap.o
 	$(MAKELIB)
 
 all_libs: $(ALL_LIBS)
