@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "query_types.h"
 
 int megawrapper(int type, char * query)
