@@ -1,16 +1,14 @@
 CC=c99
 ALL_LIBS=D.a E.a H.a L.a O.a R.a W.a T.a fluxcap.a
 
-clean:
-	-rm *.o
-	-rm *.a
+MAKELIB= @ar rcs  lib$@ $< ; echo archive $@
 
 default:
 	@echo all_libs: $(ALL_LIBS) 
 
-MAKELIB= @ar rcs  lib$@ $< ; echo archive $@
-
-
+clean:
+	-rm *.o
+	-rm *.a
 
 D.a: d.o
 	$(MAKELIB)
@@ -33,4 +31,5 @@ fluxcap.a: fluxcap.o
 
 all_libs: $(ALL_LIBS)
 
-fluxmain: fluxmain.o
+fluxmain: fluxmain.o $(ALL_LIBS)
+	c99 -static fluxmain.o -L. -lfluxcap -lD -lE -lH -lL -lO -lR -lW -lT -o fluxmain

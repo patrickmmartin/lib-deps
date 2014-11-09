@@ -5,9 +5,9 @@
 int main(int argc, char * argv[])
 {
   printf("fluxmain\n");
-  for (int i = 0 ; i < 8 ; i++)
+  for (int i = 1 ; i < 9 ; i++)
     {
-      megawrapper(i, "?");
+      megawrapper(i, "?\n");
     }
 
 }
