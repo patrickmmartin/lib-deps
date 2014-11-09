@@ -43,6 +43,7 @@ fluxcap.a: fluxcap.o
 
 all_libs: $(ALL_LIBS)
 
+# TODO(PMM) - would like to auto-generate the lib dependency list
 fluxmain: fluxmain.o $(ALL_LIBS)
 	$(CC) -static fluxmain.o -L. $(ALL_LD_FLAGS) -o fluxmain
 
