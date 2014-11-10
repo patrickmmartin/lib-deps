@@ -1,8 +1,8 @@
 CC=c99
 
-ALL_LIBS=D.a E.a H.a L.a O.a R.a W.a T.a fluxcap.a
+ALL_LIBS=libD.a libE.a libH.a libL.a libO.a libR.a libW.a libT.a libfluxcap.a
 
-MAKELIB= @ar rcs lib$@ $< ; echo archive $@
+MAKELIB= @ar rcs $@ $< && echo build archive $@:$<
 
 ALL_LD_FLAGS=-lfluxcap -lD -lE -lH -lL -lO -lR -lW -lT
 D_LD_FLAGS  =-lD
@@ -14,36 +14,39 @@ R_LD_FLAGS  =-lR
 W_LD_FLAGS  =-lW
 T_LD_FLAGS  =-lT
 
-
 default:
 	@echo all_libs: $(ALL_LIBS) 
 
-clean:
-	-rm *.o
-	-rm *.a
+ifeq ($(OS), Windows_NT)
+  RM=del
+endif
 
-D.a: d.o
+clean:
+	-@$(RM) *.o
+	-@$(RM) *.a
+
+libD.a: d.o
 	$(MAKELIB)
-E.a: e.o
+libE.a: e.o
 	$(MAKELIB)
-H.a: h.o
+libH.a: h.o
 	$(MAKELIB)
-L.a: l.o
+libL.a: l.o
 	$(MAKELIB)
-O.a: o.o
+libO.a: o.o
 	$(MAKELIB)
-R.a: r.o
+libR.a: r.o
 	$(MAKELIB)
-W.a: w.o
+libW.a: w.o
 	$(MAKELIB)
-T.a: t.o
+libT.a: t.o
 	$(MAKELIB)
-fluxcap.a: fluxcap.o
+libfluxcap.a: fluxcap.o
 	$(MAKELIB)
 
 all_libs: $(ALL_LIBS)
 
-# TODO(PMM) - would like to auto-generate the lib dependency list
+# TODO(PMM) - I would like to auto-generate the lib dependency list
 fluxmain: fluxmain.o $(ALL_LIBS)
 	$(CC) -static fluxmain.o -L. $(ALL_LD_FLAGS) -o fluxmain
 
