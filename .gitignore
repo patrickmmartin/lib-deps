@@ -1,3 +1,4 @@
+
 winenv.cmd~
 *.a
 *.o
@@ -7,3 +8,5 @@ winenv.cmd~
 fluxmain
 fluxmain.exe
 fluxlite
+fluxlite_min
+fluxlite_min_dyn

@@ -1,6 +1,7 @@
 CC=c99
 
 ALL_LIBS=libD.a libE.a libH.a libL.a libO.a libR.a libW.a libT.a libfluxcap.a
+ALL_BIN=fluxmain fluxlite fluxlite_min fluxlite_min_dyn
 
 MAKELIB= @ar rcs $@ $< && echo build archive $@:$<
 
@@ -16,7 +17,8 @@ W_LD_FLAGS  	 =-lW
 T_LD_FLAGS  	 =-lT
 
 default:
-	@echo all_libs: $(ALL_LIBS) 
+	@echo all_libs: $(ALL_LIBS)
+	@echo binaries: $(ALL_BIN) 
 
 ifeq ($(OS), Windows_NT)
   RM=del
@@ -44,6 +46,8 @@ libT.a: t.o
 	$(MAKELIB)
 libfluxcap.a: fluxcap.o
 	$(MAKELIB)
+libfluxcap_dyn.a: fluxcap_dyn.o
+	$(MAKELIB)
 
 all_libs: $(ALL_LIBS)
 
@@ -53,8 +57,11 @@ fluxmain: fluxmain.o $(ALL_LIBS)
 	$(CC) -static fluxmain.o -L. $(ALL_LD_FLAGS) -o fluxmain
 
 fluxlite_min: fluxlite.o libfluxcap.a libD.a
-	$(CC) -static fluxlite.o -L. -lfluxcap -lD -o fluxlite
+	$(CC) -static fluxlite.o -L. -lfluxcap -lD -o fluxlite_min
 
 fluxlite: fluxlite.o $(ALL_LIBS)
 	$(CC) -static fluxlite.o -L. $(ALL_LD_FLAGS) -o fluxlite
+
+fluxlite_min_dyn: fluxlite_dyn.o libfluxcap_dyn.a libD.a
+	$(CC) -static fluxlite_dyn.o -L. -lfluxcap_dyn -lD -o fluxlite_min_dyn
 

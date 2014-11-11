@@ -1,3 +1,4 @@
+
 // header file for query type functions
 
 int query_type1(char * query);
