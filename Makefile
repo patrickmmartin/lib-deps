@@ -5,6 +5,8 @@ ALL_BIN=fluxmain fluxlite fluxlite_min fluxlite_min_dyn
 
 MAKELIB= @ar rcs $@ $< && echo build archive $@:$<
 
+_= -L. -lfluxcap
+
 ALL_LD_FLAGS     =-lfluxcap -lD -lE -lH -lL -lO -lR -lW -lT
 FLUXCAP_LD_FLAGS =-lfluxcap 
 D_LD_FLAGS       =-lD
@@ -51,8 +53,6 @@ libfluxcap_dyn.a: fluxcap_dyn.o
 
 all_libs: $(ALL_LIBS)
 
-# TODO(PMM) - I would like to auto-generate the lib dependency list
-# this one, is of course, straightforward as it links it all
 fluxmain: fluxmain.o $(ALL_LIBS)
 	$(CC) -static fluxmain.o -L. $(ALL_LD_FLAGS) -o fluxmain
 
@@ -64,4 +64,27 @@ fluxlite: fluxlite.o $(ALL_LIBS)
 
 fluxlite_min_dyn: fluxlite_dyn.o libfluxcap_dyn.a libD.a
 	$(CC) -static fluxlite_dyn.o -L. -lfluxcap_dyn -lD -o fluxlite_min_dyn
+
+fluxlite_min_dyn_nolibs: fluxlite_dyn.o libfluxcap_dyn.a libD.a
+	$(CC) -static fluxlite_dyn.o -L. -o fluxlite_min_dyn
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+fluxall: fluxmain.o $(ALL_LIBS)
+	$(CC) -static fluxmain.o $(_) -lT -lH -lE  -lW -lO -lR -lL -lD -o fluxall
 
