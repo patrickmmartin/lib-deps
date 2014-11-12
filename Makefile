@@ -69,6 +69,14 @@ fluxlite_min_dyn_nolibs: fluxlite_dyn.o libfluxcap_dyn.a libD.a
 	$(CC) -static fluxlite_dyn.o -L. -o fluxlite_min_dyn
 
 
+graphs:
+	makesimple > make.simple
+	gvmake -file make.simple fluxmain
+	gvmake -file make.simple fluxlite
+	gvmake -file make.simple fluxlite_min_dyn
+	gvmake -file make.simple fluxmain --debug > fluxmain.gv
+	gvmake -file make.simple fluxlite --debug > fluxlite.gv
+	gvmake -file make.simple fluxlite_min_dyn --debug > fluxlite_min_dyn.gv
 
 
 

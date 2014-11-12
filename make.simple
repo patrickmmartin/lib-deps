@@ -1,0 +1,66 @@
+default:
+	@echo all_libs: libD.a libE.a libH.a libL.a libO.a libR.a libW.a libT.a libfluxcap.a
+	@echo binaries: fluxmain fluxlite fluxlite_min fluxlite_min_dyn
+
+libfluxcap_dyn.a: fluxcap_dyn.o
+	@ar rcs libfluxcap_dyn.a fluxcap_dyn.o && echo build archive libfluxcap_dyn.a:fluxcap_dyn.o
+
+libD.a: d.o
+	@ar rcs libD.a d.o && echo build archive libD.a:d.o
+
+fluxlite_min_dyn: fluxlite_dyn.o libfluxcap_dyn.a libD.a
+	c99 -static fluxlite_dyn.o -L. -lfluxcap_dyn -lD -o fluxlite_min_dyn
+
+libT.a: t.o
+	@ar rcs libT.a t.o && echo build archive libT.a:t.o
+
+libW.a: w.o
+	@ar rcs libW.a w.o && echo build archive libW.a:w.o
+
+libE.a: e.o
+	@ar rcs libE.a e.o && echo build archive libE.a:e.o
+
+fluxlite_min_dyn_nolibs: fluxlite_dyn.o libfluxcap_dyn.a libD.a
+	c99 -static fluxlite_dyn.o -L. -o fluxlite_min_dyn
+
+libH.a: h.o
+	@ar rcs libH.a h.o && echo build archive libH.a:h.o
+
+libL.a: l.o
+	@ar rcs libL.a l.o && echo build archive libL.a:l.o
+
+libO.a: o.o
+	@ar rcs libO.a o.o && echo build archive libO.a:o.o
+
+libR.a: r.o
+	@ar rcs libR.a r.o && echo build archive libR.a:r.o
+
+libfluxcap.a: fluxcap.o
+	@ar rcs libfluxcap.a fluxcap.o && echo build archive libfluxcap.a:fluxcap.o
+
+all_libs: libD.a libE.a libH.a libL.a libO.a libR.a libW.a libT.a libfluxcap.a
+
+fluxall: fluxmain.o libD.a libE.a libH.a libL.a libO.a libR.a libW.a libT.a libfluxcap.a
+	c99 -static fluxmain.o -L. -lfluxcap -lT -lH -lE  -lW -lO -lR -lL -lD -o fluxall
+
+fluxmain: fluxmain.o libD.a libE.a libH.a libL.a libO.a libR.a libW.a libT.a libfluxcap.a
+	c99 -static fluxmain.o -L. -lfluxcap -lD -lE -lH -lL -lO -lR -lW -lT -o fluxmain
+
+fluxlite_min: fluxlite.o libfluxcap.a libD.a
+	c99 -static fluxlite.o -L. -lfluxcap -lD -o fluxlite_min
+
+clean:
+	@-*.o
+	@-*.a
+
+fluxlite: fluxlite.o libD.a libE.a libH.a libL.a libO.a libR.a libW.a libT.a libfluxcap.a
+	c99 -static fluxlite.o -L. -lfluxcap -lD -lE -lH -lL -lO -lR -lW -lT -o fluxlite
+
+graphs:
+	makesimple > make.simple
+	gvmake -file make.simple fluxmain
+	gvmake -file make.simple fluxlite
+	gvmake -file make.simple fluxlite_min_dyn
+	gvmake -file make.simple fluxmain --debug > fluxmain.gv
+	gvmake -file make.simple fluxlite --debug > fluxlite.gv
+	gvmake -file make.simple fluxlite_min_dyn --debug > fluxlite_min_dyn.gv

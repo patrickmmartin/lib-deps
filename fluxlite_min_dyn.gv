@@ -1,0 +1,22 @@
+digraph test {
+	ratio="fill";
+	node [fillcolor="#f5f694", shape="box", style="filled"];
+	edge [color="red"];
+	fluxlite_min_dyn [label="fluxlite_min_dyn"];
+	node1 [fillcolor="#c7f77c", label="c99 -static ...", shape="ellipse", style="filled"];
+	node2 [label="fluxlite_dyn.o"];
+	node3 [label="libfluxcap_dyn.a"];
+	node4 [fillcolor="#c7f77c", label="@ar rcs ...", shape="ellipse", style="filled"];
+	node5 [label="fluxcap_dyn.o"];
+	node6 [label="libD.a"];
+	node7 [fillcolor="#c7f77c", label="@ar rcs ...", shape="ellipse", style="filled"];
+	node8 [label="d.o"];
+	node1 -> fluxlite_min_dyn;
+	node4 -> node3;
+	node7 -> node6;
+	node8 -> node7;
+	node5 -> node4;
+	node2 -> node1;
+	node6 -> node1;
+	node3 -> node1;
+}
